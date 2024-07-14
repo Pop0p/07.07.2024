@@ -28,10 +28,9 @@ var _engine_idle_time : float = 0
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	engine_current_speed.set_max_value(engine_boost_max_movement_speed)
+	_is_engine_turned_on = true
 
 func _process(delta: float) -> void:
-	if inputs.is_secondary_fire_just_pressed:
-		_is_engine_turned_on = !_is_engine_turned_on
 	_update_velocity(delta)
 	_update_rotation(delta)
 
@@ -39,7 +38,7 @@ func _update_velocity(delta: float) -> void:
 	if _is_engine_turned_on:
 		var forward = -global_basis.z.normalized()
 		var right = global_basis.x.normalized()
-		var speed_multiplier : float = engine_boost_multiplier if inputs.is_primary_fire_pressed else 1
+		var speed_multiplier : float = engine_boost_multiplier if inputs.is_primary_fire_pressed and velocity.length() < engine_max_movement_speed else 1
 		var steering_forward = forward * engine_steering_force * -inputs.movements.y
 		var steering_horizontal = right * engine_steering_force * inputs.movements.x
 		var steering = (steering_forward + steering_horizontal) * speed_multiplier
@@ -50,9 +49,9 @@ func _update_velocity(delta: float) -> void:
 			velocity += steering_force * delta
 			velocity = velocity.lerp(steering_direction * velocity.length(), engine_reorientation_rate * delta)
 			if velocity.length() > engine_max_movement_speed:
-				if speed_multiplier != 1 and velocity.length() > engine_boost_max_movement_speed:
+				if inputs.is_primary_fire_pressed and velocity.length() > engine_boost_max_movement_speed:
 					velocity = velocity.normalized() * engine_boost_max_movement_speed	
-				elif speed_multiplier == 1:
+				elif not inputs.is_primary_fire_pressed:
 					velocity = velocity.normalized() * engine_max_movement_speed
 		else:
 			velocity = velocity.move_toward(Vector3.ZERO, engine_deceleration  * delta)
@@ -69,9 +68,7 @@ func _update_velocity(delta: float) -> void:
 			var new_shake : Vector3
 			if velocity.length() > (engine_max_movement_speed):
 				new_shake = Vector3(randf_range(-0.3, 0.3), randf_range(-0.3, 0.3), 0)
-			elif velocity.length() >= (engine_max_movement_speed / 1.5):
-				new_shake = Vector3(randf_range(-0.2, 0.2), randf_range(-0.2, 0.2), 0)
-			elif velocity.length() >= (engine_max_movement_speed / 3):
+			elif velocity.length() >= (engine_max_movement_speed / 2):
 				new_shake = Vector3(randf_range(-0.1, 0.1), randf_range(-0.1, 0.1), 0)
 			animation_player.get_animation("engine_moving").track_set_key_value(0, 1, new_shake)
 			animation_player.play("engine_moving")
