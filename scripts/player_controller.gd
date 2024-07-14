@@ -2,53 +2,97 @@ class_name PlayerController extends CharacterBody3D
 
 @export var camera : Camera3D
 @export var inputs : PlayerInputs
-@export var animation : AnimationPlayer
+@export var animation_player : AnimationPlayer
 
-@export var stamina : FloatValue
+@export var settings_mouse_sensitivity : float = .35
 
-@export var movement_speed : float = 3.5
-@export var movement_speed_fast : float = 6.0
-@export var movement_acceleration : float = 0.75
-@export var movement_deceleration : float = 0.25
+@export var engine_current_speed : FloatValue
 
-@export var mouse_sensitivity : float = .35
+@export var engine_boost_multiplier : float = 3.5
+@export var engine_boost_max_movement_speed : float = 75.0
+@export var engine_reorientation_rate : float = 1.0
+@export var engine_max_movement_speed : float = 55.0
+@export var engine_steering_force : float = 10.0
+@export var engine_deceleration : float = 5.0
+@export var engine_breaking_force : float = 10.0
+@export var mass : float = 1.0
+
+var _last_input_time : float
+var _is_engine_turned_on: bool = false
 var _mouse_rotation : Vector3
+
+var _engine_idle_start_y_position : float = 0
+var _engine_idle_time : float = 0
+
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	engine_current_speed.set_max_value(engine_boost_max_movement_speed)
 
 func _process(delta: float) -> void:
+	if inputs.is_secondary_fire_just_pressed:
+		_is_engine_turned_on = !_is_engine_turned_on
 	_update_velocity(delta)
 	_update_rotation(delta)
-	
-func _update_velocity(delta: float) -> void:
-	var direction = (transform.basis * Vector3(inputs.movements.x, 0, inputs.movements.y)).normalized()
-	if direction:
-		velocity.x = lerp(velocity.x, direction.x * (movement_speed_fast if inputs.is_sprint_pressed else movement_speed), movement_acceleration)
-		velocity.z = lerp(velocity.z ,direction.z * (movement_speed_fast if inputs.is_sprint_pressed else movement_speed), movement_acceleration)
-		if inputs.is_sprint_pressed and animation.current_animation != "Running":
-			animation.play("Running", -1, 1.5)
-		elif not inputs.is_sprint_pressed and animation.current_animation != "Walking":
-			animation.play("Walking", -1, 1.5)
-	else:
-		velocity.x = move_toward(velocity.x, 0, movement_deceleration)
-		velocity.z = move_toward(velocity.z, 0, movement_deceleration)
-		if animation.is_playing():
-			animation.stop()
 
-func _update_rotation(delta : float) -> void:
-	_mouse_rotation.x += inputs.tilt_input * mouse_sensitivity
-	_mouse_rotation.x = clamp(_mouse_rotation.x, deg_to_rad(-80), deg_to_rad(80))
-	_mouse_rotation.y += inputs.rotation_input * mouse_sensitivity
+func _update_velocity(delta: float) -> void:
+	if _is_engine_turned_on:
+		var forward = -global_basis.z.normalized()
+		var right = global_basis.x.normalized()
+		var speed_multiplier : float = engine_boost_multiplier if inputs.is_primary_fire_pressed else 1
+		var steering_forward = forward * engine_steering_force * -inputs.movements.y
+		var steering_horizontal = right * engine_steering_force * inputs.movements.x
+		var steering = (steering_forward + steering_horizontal) * speed_multiplier
+		var steering_direction = steering.normalized()
+		var steering_force = steering / mass
+
+		if inputs.movements.length() != 0:
+			velocity += steering_force * delta
+			velocity = velocity.lerp(steering_direction * velocity.length(), engine_reorientation_rate * delta)
+			if velocity.length() > engine_max_movement_speed:
+				if speed_multiplier != 1 and velocity.length() > engine_boost_max_movement_speed:
+					velocity = velocity.normalized() * engine_boost_max_movement_speed	
+				elif speed_multiplier == 1:
+					velocity = velocity.normalized() * engine_max_movement_speed
+		else:
+			velocity = velocity.move_toward(Vector3.ZERO, engine_deceleration  * delta)
+		
+		if velocity.length() <= 0.1:
+			if _engine_idle_time == 0:
+				_engine_idle_start_y_position = position.y
+				_engine_idle_time = 0
+			else:
+				var target_position_y = _engine_idle_start_y_position + 0.25 * sin(_engine_idle_time)
+				position.y = target_position_y
+			_engine_idle_time += delta
+		else:
+			var new_shake : Vector3
+			if velocity.length() > (engine_max_movement_speed):
+				new_shake = Vector3(randf_range(-0.3, 0.3), randf_range(-0.3, 0.3), 0)
+			elif velocity.length() >= (engine_max_movement_speed / 1.5):
+				new_shake = Vector3(randf_range(-0.2, 0.2), randf_range(-0.2, 0.2), 0)
+			elif velocity.length() >= (engine_max_movement_speed / 3):
+				new_shake = Vector3(randf_range(-0.1, 0.1), randf_range(-0.1, 0.1), 0)
+			animation_player.get_animation("engine_moving").track_set_key_value(0, 1, new_shake)
+			animation_player.play("engine_moving")
+			_engine_idle_time = 0
+
+		
+	else:
+		velocity = velocity.move_toward(Vector3.ZERO, engine_breaking_force * delta)
+
+	engine_current_speed.set_value(velocity.length())
+
+func _update_rotation(delta: float) -> void:
+	_mouse_rotation.y += inputs.tilt_input * settings_mouse_sensitivity
+	_mouse_rotation.y = clamp(_mouse_rotation.y, deg_to_rad(-60), deg_to_rad(60))
+	_mouse_rotation.x += inputs.rotation_input * settings_mouse_sensitivity
 	
-	var _player_rotation = Vector3(0.0, _mouse_rotation.y, 0.0)
-	var _camera_rotation = Vector3(_mouse_rotation.x, 0.0, 0.0)
+	var _rotation = Vector3(_mouse_rotation.y, _mouse_rotation.x, 0.0)
+	global_transform.basis = Basis.from_euler(_rotation)
 	
-	camera.transform.basis = Basis.from_euler(_camera_rotation)
-	camera.rotation.z = 0.0
 	
-	global_transform.basis = Basis.from_euler(_player_rotation)
-	
+
 	inputs.rotation_input = 0.0
 	inputs.tilt_input = 0.0
 
