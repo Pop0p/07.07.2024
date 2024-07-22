@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://dm8w70yi2w1m0"]
+
+[ext_resource type="PackedScene" uid="uid://dej6ga40u0kmf" path="res://assets/kitbash3d/futuristic_street_light/futuristic_street_light.glb" id="1_0ycli"]
+
+[node name="futuristic_street_light" instance=ExtResource("1_0ycli")]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="KB3D_HTS_BldgSM_K_grp/KB3D_HTS_BldgSM_K_Main" index="0"]
+transform = Transform3D(1, 0, 0, 0, -0.695675, 0.718357, 0, -0.718357, -0.695675, 0, 2.12969, 0.763572)
+light_energy = 75.0
+light_indirect_energy = 2.03
+light_volumetric_fog_energy = 2.236
+shadow_enabled = true
+spot_range = 20.0
+spot_angle = 40.0

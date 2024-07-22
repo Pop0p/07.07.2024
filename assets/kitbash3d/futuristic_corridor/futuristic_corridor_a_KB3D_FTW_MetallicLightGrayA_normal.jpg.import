@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://d4ifsp0vjqw58"
+path.s3tc="res://.godot/imported/futuristic_corridor_a_KB3D_FTW_MetallicLightGrayA_normal.jpg-c53fc64f0f30e0adf0819ba352bb4ef9.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "43a12bf906916c5129b8b50331edc739"
+}
+
+[deps]
+
+source_file="res://assets/kitbash3d/futuristic_corridor/futuristic_corridor_a_KB3D_FTW_MetallicLightGrayA_normal.jpg"
+dest_files=["res://.godot/imported/futuristic_corridor_a_KB3D_FTW_MetallicLightGrayA_normal.jpg-c53fc64f0f30e0adf0819ba352bb4ef9.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=1
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=1
+roughness/src_normal="res://assets/kitbash3d/futuristic_corridor_a/futuristic_corridor_a_KB3D_FTW_MetallicLightGrayA_normal.jpg"
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

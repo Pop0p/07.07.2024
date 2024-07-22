@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://dx17ahepovvfb"]
+
+[ext_resource type="Script" path="res://scenes/ship/ship.gd" id="1_0w1la"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_jkmu7"]
+radius = 0.001
+
+[sub_resource type="SphereMesh" id="SphereMesh_cdycj"]
+radius = 1.0
+height = 2.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_bwyh2"]
+radius = 4.0
+
+[node name="RigidBody3D" type="RigidBody3D"]
+script = ExtResource("1_0w1la")
+engine_steer_force = null
+engine_max_movement_speed = null
+engine_slowing_radius = null
+engine_stopping_distance = null
+flee = null
+engine_dodging_distance = null
+seek_force = null
+avoid_force = null
+pursuit_force = null
+escape_force = null
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_jkmu7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+mesh = SubResource("SphereMesh_cdycj")
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="."]
+shape = SubResource("SphereShape3D_bwyh2")
+target_position = Vector3(0, 0, -75)
+debug_shape_custom_color = Color(0.508723, 0.313139, 0.716533, 1)

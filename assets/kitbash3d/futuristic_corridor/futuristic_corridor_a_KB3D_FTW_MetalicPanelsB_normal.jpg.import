@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://b782hh1t3b1xy"
+path.s3tc="res://.godot/imported/futuristic_corridor_a_KB3D_FTW_MetalicPanelsB_normal.jpg-e3c091fa19e4293c084c3a38e3600dd3.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "5a9e1bf4b32eb16dc8c8d6b72e388db3"
+}
+
+[deps]
+
+source_file="res://assets/kitbash3d/futuristic_corridor/futuristic_corridor_a_KB3D_FTW_MetalicPanelsB_normal.jpg"
+dest_files=["res://.godot/imported/futuristic_corridor_a_KB3D_FTW_MetalicPanelsB_normal.jpg-e3c091fa19e4293c084c3a38e3600dd3.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=1
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=1
+roughness/src_normal="res://assets/kitbash3d/futuristic_corridor_a/futuristic_corridor_a_KB3D_FTW_MetalicPanelsB_normal.jpg"
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

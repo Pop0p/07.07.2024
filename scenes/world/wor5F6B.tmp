@@ -1,0 +1,82 @@
+[gd_scene load_steps=11 format=3 uid="uid://es458x8blpno"]
+
+[ext_resource type="Texture2D" uid="uid://gka2tmmyau6" path="res://assets/industrial_sunset_puresky_4k.hdr" id="1_phhc8"]
+[ext_resource type="PackedScene" uid="uid://cxgjfcdd6xgtq" path="res://scenes/player/player.tscn" id="2_f01s4"]
+[ext_resource type="PackedScene" uid="uid://b3jiqovakh7s6" path="res://scenes/futuristic_corridor/futuristic_corridor_a.tscn" id="3_k7lrj"]
+[ext_resource type="Script" path="res://scenes/world/corridors_spawner.gd" id="3_lj5ai"]
+[ext_resource type="Texture2D" uid="uid://beajo3tdp11ml" path="res://addons/kenney_prototype-textures/PNG/Dark/texture_03.png" id="5_8mcgd"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_60mxy"]
+panorama = ExtResource("1_phhc8")
+
+[sub_resource type="Sky" id="Sky_7visd"]
+sky_material = SubResource("PanoramaSkyMaterial_60mxy")
+
+[sub_resource type="Environment" id="Environment_n5di3"]
+background_mode = 2
+background_color = Color(0.269267, 0.300829, 0.290576, 1)
+sky = SubResource("Sky_7visd")
+ambient_light_source = 3
+ambient_light_color = Color(0.837473, 0.802186, 0.726192, 1)
+tonemap_exposure = 1.2
+ssr_enabled = true
+ssr_fade_in = 10.0
+ssr_fade_out = 100.0
+ssao_enabled = true
+ssao_radius = 2.0
+ssao_intensity = 1.5
+ssao_power = 1.25
+ssil_enabled = true
+sdfgi_enabled = true
+sdfgi_use_occlusion = true
+sdfgi_energy = 0.8
+glow_enabled = true
+glow_intensity = 0.01
+glow_blend_mode = 0
+fog_light_energy = 0.24
+fog_density = 0.0
+volumetric_fog_density = 0.0
+adjustment_enabled = true
+adjustment_brightness = 0.92
+adjustment_contrast = 1.1
+adjustment_saturation = 1.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pr4at"]
+albedo_texture = ExtResource("5_8mcgd")
+uv1_scale = Vector3(0.1, 0.1, 0.1)
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_t67v7"]
+material = SubResource("StandardMaterial3D_pr4at")
+size = Vector3(220, 10, 200)
+
+[node name="World" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_n5di3")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+light_color = Color(0.482553, 0.489443, 0.467614, 1)
+light_energy = 0.716
+shadow_enabled = true
+shadow_blur = 0.755
+directional_shadow_max_distance = 600.0
+
+[node name="Player" parent="." instance=ExtResource("2_f01s4")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -50, 55, 0)
+collision_mask = 1
+engine_boost_max_movement_speed = 120.0
+engine_max_movement_speed = 85.0
+
+[node name="- - - TUNNELS - - -" type="Node3D" parent="."]
+script = ExtResource("3_lj5ai")
+tunnel_count = 30
+tunnel_scale = Vector3(10, 10, 10)
+tunnel_scene = ExtResource("3_k7lrj")
+tunnel_spacing = 43.0
+
+[node name="- - - ARENA - - -" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(5.93287, 0, 0, 0, 1, 0, 0, 0, 1, 620, 0, -1)
+mesh = SubResource("BoxMesh_t67v7")

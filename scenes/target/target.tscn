@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=3 uid="uid://bii1y22rakci2"]
+
+[ext_resource type="Script" path="res://scenes/target/target.gd" id="1_m650y"]
+[ext_resource type="Shader" path="res://materials/grid.gdshader" id="2_w4u3c"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0xlqr"]
+size = Vector3(5, 5, 5)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_i2qgx"]
+load_path = "res://.godot/imported/grid.jpg-dc932e270a1973f0d2a4076665a46eb4.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_nv5km"]
+load_path = "res://.godot/imported/grid.jpg-dc932e270a1973f0d2a4076665a46eb4.s3tc.ctex"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ji2cm"]
+render_priority = 0
+shader = ExtResource("2_w4u3c")
+shader_parameter/albedo = Color(0.705301, 0.0641102, 0.223621, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 0.5
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 0.5
+shader_parameter/metallic = null
+shader_parameter/uv1_blend_sharpness = 1.0
+shader_parameter/uv1_scale = Vector3(0.5, 0.5, 0.5)
+shader_parameter/uv1_offset = null
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = null
+shader_parameter/texture_albedo = SubResource("CompressedTexture2D_i2qgx")
+shader_parameter/texture_roughness = SubResource("CompressedTexture2D_nv5km")
+
+[sub_resource type="BoxMesh" id="BoxMesh_e1wbq"]
+material = SubResource("ShaderMaterial_ji2cm")
+size = Vector3(5, 5, 5)
+
+[node name="Target" type="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, -51.25)
+gravity_scale = 0.0
+script = ExtResource("1_m650y")
+movement_amplitude = 95.0
+movement_speed = 0.5
+target_axis = Vector3(1, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_0xlqr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+mesh = SubResource("BoxMesh_e1wbq")
+skeleton = NodePath("../../..")

@@ -1,0 +1,68 @@
+[gd_scene load_steps=5 format=3 uid="uid://bcc3th11fey4g"]
+
+[ext_resource type="Script" path="res://scenes/interface/debug_fps_counter.gd" id="1_avdjd"]
+[ext_resource type="Script" path="res://scenes/interface/interface_engine_speed_bar.gd" id="1_hn51s"]
+[ext_resource type="Resource" uid="uid://2xec265lmxds" path="res://resources/engine_current_speed.tres" id="2_taphx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wy8ey"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="Interface" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -105.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = 55.0
+grow_horizontal = 0
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "50 ip/s
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("1_avdjd")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -35.0
+offset_top = -200.0
+offset_right = -10.0
+offset_bottom = 200.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="EngineSpeed" type="ProgressBar" parent="PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(25, 200)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/fill = SubResource("StyleBoxFlat_wy8ey")
+fill_mode = 3
+show_percentage = false
+script = ExtResource("1_hn51s")
+engine_current_speed = ExtResource("2_taphx")
