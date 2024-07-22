@@ -1,0 +1,162 @@
+[gd_scene load_steps=18 format=3 uid="uid://es458x8blpno"]
+
+[ext_resource type="Texture2D" uid="uid://bry7iw6jd80td" path="res://assets/satara_night_no_lamps_2k.hdr" id="1_ux02a"]
+[ext_resource type="PackedScene" uid="uid://cxgjfcdd6xgtq" path="res://scenes/player/player.tscn" id="2_f01s4"]
+[ext_resource type="PackedScene" uid="uid://b3jiqovakh7s6" path="res://scenes/futuristic_corridor/futuristic_corridor_a.tscn" id="3_k7lrj"]
+[ext_resource type="Texture2D" uid="uid://be3lbrnbbjro8" path="res://addons/kenney_prototype-textures/PNG/Light/texture_02.png" id="4_xr16a"]
+[ext_resource type="Texture2D" uid="uid://beajo3tdp11ml" path="res://addons/kenney_prototype-textures/PNG/Dark/texture_03.png" id="5_bk8ky"]
+[ext_resource type="PackedScene" uid="uid://dm8w70yi2w1m0" path="res://scenes/futuristic_street_light/futuristic_street_light.tscn" id="6_ms1vs"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_60mxy"]
+panorama = ExtResource("1_ux02a")
+
+[sub_resource type="Sky" id="Sky_7visd"]
+sky_material = SubResource("PanoramaSkyMaterial_60mxy")
+
+[sub_resource type="Environment" id="Environment_n5di3"]
+background_mode = 1
+background_color = Color(0.0997721, 0.115492, 0.110394, 1)
+sky = SubResource("Sky_7visd")
+ambient_light_source = 3
+ambient_light_color = Color(0.837473, 0.802186, 0.726192, 1)
+tonemap_exposure = 1.2
+ssr_enabled = true
+ssr_fade_in = 10.0
+ssr_fade_out = 100.0
+ssao_enabled = true
+ssao_radius = 2.0
+ssao_intensity = 1.5
+ssao_power = 1.25
+ssil_enabled = true
+sdfgi_enabled = true
+sdfgi_use_occlusion = true
+sdfgi_energy = 0.8
+glow_enabled = true
+glow_intensity = 0.01
+glow_blend_mode = 0
+fog_light_energy = 0.24
+fog_density = 0.0
+volumetric_fog_density = 0.0
+adjustment_enabled = true
+adjustment_brightness = 0.92
+adjustment_contrast = 1.1
+adjustment_saturation = 1.1
+
+[sub_resource type="BoxMesh" id="BoxMesh_ooxy8"]
+size = Vector3(0.005, 0.005, 0.005)
+
+[sub_resource type="Curve" id="Curve_p6ixh"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o8oct"]
+albedo_texture = ExtResource("4_xr16a")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_oovj2"]
+material = SubResource("StandardMaterial3D_o8oct")
+size = Vector3(2, 18, 2)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_q883b"]
+data = PackedVector3Array(-1, 9, 1, 1, 9, 1, -1, -9, 1, 1, 9, 1, 1, -9, 1, -1, -9, 1, 1, 9, -1, -1, 9, -1, 1, -9, -1, -1, 9, -1, -1, -9, -1, 1, -9, -1, 1, 9, 1, 1, 9, -1, 1, -9, 1, 1, 9, -1, 1, -9, -1, 1, -9, 1, -1, 9, -1, -1, 9, 1, -1, -9, -1, -1, 9, 1, -1, -9, 1, -1, -9, -1, 1, 9, 1, -1, 9, 1, 1, 9, -1, -1, 9, 1, -1, 9, -1, 1, 9, -1, -1, -9, 1, 1, -9, 1, -1, -9, -1, 1, -9, 1, 1, -9, -1, -1, -9, -1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7i2aj"]
+albedo_texture = ExtResource("5_bk8ky")
+uv1_scale = Vector3(0.5, 1, 0.5)
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_5ny2i"]
+material = SubResource("StandardMaterial3D_7i2aj")
+size = Vector3(50, 1, 102)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_lbiia"]
+data = PackedVector3Array(-25, 0.5, 51, 25, 0.5, 51, -25, -0.5, 51, 25, 0.5, 51, 25, -0.5, 51, -25, -0.5, 51, 25, 0.5, -51, -25, 0.5, -51, 25, -0.5, -51, -25, 0.5, -51, -25, -0.5, -51, 25, -0.5, -51, 25, 0.5, 51, 25, 0.5, -51, 25, -0.5, 51, 25, 0.5, -51, 25, -0.5, -51, 25, -0.5, 51, -25, 0.5, -51, -25, 0.5, 51, -25, -0.5, -51, -25, 0.5, 51, -25, -0.5, 51, -25, -0.5, -51, 25, 0.5, 51, -25, 0.5, 51, 25, 0.5, -51, -25, 0.5, 51, -25, 0.5, -51, 25, 0.5, -51, -25, -0.5, 51, 25, -0.5, 51, -25, -0.5, -51, 25, -0.5, 51, 25, -0.5, -51, -25, -0.5, -51)
+
+[node name="World" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_n5di3")
+
+[node name="Player" parent="." instance=ExtResource("2_f01s4")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 19, 50)
+collision_mask = 1
+engine_boost_max_movement_speed = 50.0
+engine_max_movement_speed = 30.0
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="Player"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+amount = 5000
+lifetime = 6.5
+randomness = 0.75
+lifetime_randomness = 0.5
+fixed_fps = 60
+mesh = SubResource("BoxMesh_ooxy8")
+emission_shape = 3
+emission_box_extents = Vector3(25, 25, 25)
+particle_flag_rotate_y = true
+direction = Vector3(0, 0, 0)
+spread = 50.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 0.1
+initial_velocity_max = 0.15
+angular_velocity_min = 0.1
+angular_velocity_max = 0.15
+angle_min = 0.1
+angle_max = 0.2
+scale_amount_curve = SubResource("Curve_p6ixh")
+color = Color(0.838897, 0.838897, 0.838897, 1)
+
+[node name="- - - TUNNELS - - -" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.45998)
+
+[node name="futuristic_corridor_a" parent="- - - TUNNELS - - -" instance=ExtResource("3_k7lrj")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 25)
+
+[node name="futuristic_corridor_a2" parent="- - - TUNNELS - - -" instance=ExtResource("3_k7lrj")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 20.7)
+
+[node name="futuristic_corridor_a3" parent="- - - TUNNELS - - -" instance=ExtResource("3_k7lrj")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 16.4)
+
+[node name="- - - TOWER A - - -" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="- - - TOWER A - - -"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 50)
+mesh = SubResource("BoxMesh_oovj2")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="- - - TOWER A - - -/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="- - - TOWER A - - -/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_q883b")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("BoxMesh_5ny2i")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_lbiia")
+
+[node name="futuristic_street_light" parent="." instance=ExtResource("6_ms1vs")]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 23, 0, 30)
+
+[node name="futuristic_street_light2" parent="." instance=ExtResource("6_ms1vs")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -23, 0, 30)
+
+[node name="futuristic_street_light3" parent="." instance=ExtResource("6_ms1vs")]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 23, 0, 0)
+
+[node name="futuristic_street_light4" parent="." instance=ExtResource("6_ms1vs")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -23, 0, 0)
+
+[node name="futuristic_street_light5" parent="." instance=ExtResource("6_ms1vs")]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 23, 0, -30)
+
+[node name="futuristic_street_light6" parent="." instance=ExtResource("6_ms1vs")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -23, 0, -30)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.73901, -0.443574, -0.507056, -0.451744, -0.232092, 0.86143, -0.499792, 0.865665, -0.0288637, -27, 45, -0.638641)
+light_color = Color(0.116984, 0.221292, 0.199273, 1)
+light_energy = 2.313
